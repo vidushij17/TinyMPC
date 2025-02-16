@@ -2,7 +2,13 @@
 // Build and run the example main function after generation
 
 #include <iostream>
+#ifdef __MINGW32__
+#include <experimental/filesystem>
+namespace std_fs = std::experimental::filesystem;
+#else
 #include <filesystem>
+namespace std_fs = std::filesystem;
+#endif
 
 #include <tinympc/tiny_api.hpp>
 #include <tinympc/codegen.hpp>
@@ -11,13 +17,12 @@
 #define NINPUTS 1   // input dimension: F (Newtons)
 #define NHORIZON 10 // horizon
 
-extern "C"
-{
+extern "C" {
 
 typedef Matrix<tinytype, NINPUTS, NHORIZON-1> tiny_MatrixNuNhm1;
 typedef Matrix<tinytype, NSTATES, NHORIZON> tiny_MatrixNxNh;
 
-std::filesystem::path output_dir_relative = "tinympc_generated_code_cartpole_example/";
+std_fs::path output_dir_relative = "tinympc_generated_code_cartpole_example/";
 
 int main()
 {
@@ -47,7 +52,7 @@ int main()
                             rho_value, NSTATES, NINPUTS, NHORIZON,
                             x_min, x_max, u_min, u_max, verbose);
 
-    tiny_codegen(solver, std::filesystem::absolute(output_dir_relative).string().c_str(), verbose);
+    tiny_codegen(solver, std_fs::absolute(output_dir_relative).string().c_str(), verbose);
 
     return 0;
 }

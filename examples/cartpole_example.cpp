@@ -23,8 +23,7 @@
 #define NHORIZON 10
 #define NTOTAL 400
 
-extern "C"
-{
+extern "C" {
 
 typedef Matrix<tinytype, NINPUTS, NHORIZON-1> tiny_MatrixNuNhm1;
 typedef Matrix<tinytype, NSTATES, NHORIZON> tiny_MatrixNxNh;
@@ -68,7 +67,7 @@ int main()
 
     // Reference trajectory
     tiny_VectorNx Xref_origin;
-    Xref_origin << 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+    Xref_origin << 1.0, 0, 0, 0;
     work->Xref = Xref_origin.replicate<1, 10>();
 
     for (int k = 0; k < NTOTAL - NHORIZON; ++k)
